@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Neutrals — warm, slightly off pure */
+  --color-bg: #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F5F4EE;
+  --color-border: #E8E6DE;
+  --color-border-strong: #D6D3C7;
+  --color-text-1: #1A1A17;
+  --color-text-2: #4A4A45;
+  --color-text-3: #8A8A82;
+
+  /* Brand emerald */
+  --color-brand-50:  #EEF5F1;
+  --color-brand-100: #D8E8DF;
+  --color-brand-200: #B0D1BE;
+  --color-brand-400: #4F8770;
+  --color-brand-600: #2A6B57;
+  --color-brand-700: #1F5C4E;
+  --color-brand-800: #174538;
+
+  /* Risk semantic */
+  --color-risk-low:      #6B8E7F;
+  --color-risk-low-bg:   #EAF1ED;
+  --color-risk-medium:   #C99846;
+  --color-risk-medium-bg:#FAF1DF;
+  --color-risk-high:     #C26B4F;
+  --color-risk-high-bg:  #F8E5DC;
+  --color-risk-critical: #8E3B26;
+  --color-risk-critical-bg:#F1D9D2;
+
+  /* System */
+  --color-success: #2F7A5C;
+  --color-warning: #B47A2A;
+  --color-error:   #B14A38;
+  --color-info:    #3A5F7A;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Shadows — soft, non-harsh */
+  --shadow-xs: 0 1px 2px rgba(26,26,23,0.04);
+  --shadow-sm: 0 2px 4px rgba(26,26,23,0.06);
+  --shadow-md: 0 4px 12px rgba(26,26,23,0.08);
+}
+
+@layer base {
+  html { font-family: var(--font-sans); color: var(--color-text-1); background: var(--color-bg); }
+  body { @apply antialiased; font-feature-settings: 'cv11', 'ss01'; }
+  *:focus-visible { outline: none; }
+  ::selection { background: var(--color-brand-100); color: var(--color-brand-800); }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+}
+
+@layer utilities {
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, var(--color-surface-2) 0%, var(--color-border) 50%, var(--color-surface-2) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .animate-slide-up { animation: slide-up 220ms cubic-bezier(0.34, 1.4, 0.64, 1); }
+  @keyframes slide-up { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .animate-fade-in { animation: fade-in 200ms ease; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+}
