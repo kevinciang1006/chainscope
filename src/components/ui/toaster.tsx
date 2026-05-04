@@ -1,8 +1,10 @@
+'use client';
 import { forwardRef } from 'react';
 import * as RadixToast from '@radix-ui/react-toast';
 import { X } from 'lucide-react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/useToast';
 
 export const ToastProvider = RadixToast.Provider;
 
@@ -122,8 +124,23 @@ export const ToastClose = forwardRef<
 ToastClose.displayName = 'ToastClose';
 
 export function Toaster() {
+  const { toasts, dismiss } = useToast();
   return (
-    <ToastProvider>
+    <ToastProvider swipeDirection="right">
+      {toasts.map((t) => (
+        <Toast
+          key={t.id}
+          variant={t.variant}
+          duration={t.durationMs}
+          onOpenChange={(open) => { if (!open) dismiss(t.id); }}
+        >
+          <div className="flex flex-col gap-0.5">
+            <ToastTitle>{t.title}</ToastTitle>
+            {t.description && <ToastDescription>{t.description}</ToastDescription>}
+          </div>
+          <ToastClose />
+        </Toast>
+      ))}
       <ToastViewport />
     </ToastProvider>
   );
