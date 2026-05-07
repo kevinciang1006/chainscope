@@ -2,7 +2,7 @@
 
 Supply Chain ESG Intelligence — a portfolio demo built to mirror the data-density and UX challenges of a real B2B sustainability platform.
 
-**Live:** https://chainscope.vercel.app
+**Live:** https://chainscope-six.vercel.app
 **Repo:** https://github.com/kevinciang1006/chainscope
 
 ## What this is
