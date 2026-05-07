@@ -9,19 +9,6 @@ import { RiskDistributionChart } from './components/RiskDistributionChart';
 import { ScoreTrendChart } from './components/ScoreTrendChart';
 import { TopRisksList } from './components/TopRisksList';
 
-// Helper: synthesise a plausible 12-point sparkline series deterministically
-// from a single seed value. The KPIs don't have per-month histories server-side,
-// so we derive small variations from a LCG to fill the mini area chart.
-function makeSparkline(seed: number, points = 12): number[] {
-  const out: number[] = [];
-  let v = seed;
-  for (let i = 0; i < points; i++) {
-    v = (v * 9301 + 49297) % 233280;
-    out.push((v / 233280) * 0.4 + 0.3); // range 0.3–0.7
-  }
-  return out;
-}
-
 export function DashboardPage() {
   const { kpis, riskDistribution, scoreTrend, topRisks, activity } = useDashboard();
 
@@ -44,31 +31,31 @@ export function DashboardPage() {
                 label="Total Suppliers"
                 value={kpis.totalSuppliers}
                 delta={kpis.totalDelta}
-                deltaFormat="absolute"
-                sparkline={makeSparkline(kpis.totalSuppliers)}
+                deltaFormat="count"
+                sparkline={kpis.totalSparkline}
               />
               <KpiCard
                 label="Avg ESG Score"
                 value={kpis.avgEsgScore}
                 delta={kpis.avgEsgDelta}
                 deltaFormat="percent"
-                sparkline={makeSparkline(Math.round(kpis.avgEsgScore))}
+                sparkline={kpis.avgEsgSparkline}
               />
               <KpiCard
                 label="High-Risk Suppliers"
                 value={kpis.highRiskCount}
                 delta={kpis.highRiskDelta}
-                deltaFormat="absolute"
+                deltaFormat="count"
                 inverted
-                sparkline={makeSparkline(kpis.highRiskCount + 7)}
+                sparkline={kpis.highRiskSparkline}
               />
               <KpiCard
                 label="Audits Due (90d)"
                 value={kpis.auditsDue}
                 delta={kpis.auditsDueDelta}
-                deltaFormat="absolute"
+                deltaFormat="count"
                 inverted
-                sparkline={makeSparkline(kpis.auditsDue + 13)}
+                sparkline={kpis.auditsDueSparkline}
               />
             </>
           ) : (

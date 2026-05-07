@@ -32,9 +32,13 @@ export function formatScore(value: number): string {
   return value.toFixed(0);
 }
 
-export function formatDelta(value: number, format: 'percent' | 'absolute' = 'absolute'): string {
+export function formatDelta(
+  value: number,
+  format: 'percent' | 'absolute' | 'count' = 'absolute',
+): string {
   const sign = value > 0 ? '+' : value < 0 ? '−' : '';
   const abs = Math.abs(value);
-  const body = format === 'percent' ? `${abs.toFixed(1)}%` : abs.toFixed(1);
-  return `${sign}${body}`;
+  if (format === 'count') return `${sign}${Math.round(abs)}`;
+  if (format === 'percent') return `${sign}${abs.toFixed(1)}%`;
+  return `${sign}${abs.toFixed(1)}`;
 }

@@ -5,7 +5,7 @@ import { formatDelta } from '@/lib/formatters';
 
 interface DeltaIndicatorProps {
   value: number;
-  format?: 'percent' | 'absolute';
+  format?: 'percent' | 'absolute' | 'count';
   inverted?: boolean;
   size?: 'sm' | 'md';
   className?: string;

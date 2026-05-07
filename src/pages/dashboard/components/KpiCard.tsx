@@ -1,18 +1,67 @@
-import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts';
-
 import { CountUpNumber } from '@/components/common/CountUpNumber';
 import { DeltaIndicator } from '@/components/common/DeltaIndicator';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 interface KpiCardProps {
   label: string;
   value: number;
   delta: number;
-  deltaFormat?: 'percent' | 'absolute';
+  deltaFormat?: 'percent' | 'absolute' | 'count';
   inverted?: boolean;
   sparkline: number[];
   isLoading?: boolean;
+}
+
+const SPARK_WIDTH = 120;
+const SPARK_HEIGHT = 36;
+
+interface SparklineProps {
+  data: number[];
+  inverted: boolean;
+  className?: string;
+}
+
+function Sparkline({ data, inverted, className }: SparklineProps) {
+  if (data.length < 2) return null;
+
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+
+  const points = data
+    .map((value, i) => {
+      const x = (i / (data.length - 1)) * SPARK_WIDTH;
+      const y = SPARK_HEIGHT - ((value - min) / range) * SPARK_HEIGHT;
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    })
+    .join(' ');
+
+  const areaPoints = `0,${SPARK_HEIGHT} ${points} ${SPARK_WIDTH},${SPARK_HEIGHT}`;
+
+  const stroke = inverted ? 'var(--color-risk-high)' : 'var(--color-brand-600)';
+  const fill = inverted ? 'var(--color-risk-high-bg)' : 'var(--color-brand-100)';
+
+  return (
+    <svg
+      viewBox={`0 0 ${SPARK_WIDTH} ${SPARK_HEIGHT}`}
+      className={cn('h-full w-full', className)}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <polygon points={areaPoints} fill={fill} opacity="0.6" />
+      <polyline
+        points={points}
+        fill="none"
+        stroke={stroke}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
 }
 
 export function KpiCard({
@@ -27,8 +76,6 @@ export function KpiCard({
   if (isLoading) {
     return <Skeleton className="h-24 w-full" />;
   }
-
-  const chartData = sparkline.map((v, i) => ({ i, v }));
 
   return (
     <Card className="relative overflow-hidden">
@@ -46,23 +93,7 @@ export function KpiCard({
           />
         </div>
         <div className="mt-3 h-10">
-          <ResponsiveContainer width="100%" height={40}>
-            <AreaChart
-              data={chartData}
-              margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            >
-              <Area
-                type="monotone"
-                dataKey="v"
-                stroke="var(--color-brand-700)"
-                strokeWidth={1.5}
-                fill="var(--color-brand-200)"
-                fillOpacity={0.5}
-                dot={false}
-              />
-              <Tooltip content={() => null} />
-            </AreaChart>
-          </ResponsiveContainer>
+          <Sparkline data={sparkline} inverted={inverted} />
         </div>
       </CardContent>
     </Card>

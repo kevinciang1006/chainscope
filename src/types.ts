@@ -63,10 +63,10 @@ export interface SupplierFilters {
 }
 
 export interface DashboardKpis {
-  totalSuppliers: number; totalDelta: number;
-  avgEsgScore: number; avgEsgDelta: number;
-  highRiskCount: number; highRiskDelta: number;
-  auditsDue: number; auditsDueDelta: number;
+  totalSuppliers: number; totalDelta: number; totalSparkline: number[];
+  avgEsgScore: number; avgEsgDelta: number; avgEsgSparkline: number[];
+  highRiskCount: number; highRiskDelta: number; highRiskSparkline: number[];
+  auditsDue: number; auditsDueDelta: number; auditsDueSparkline: number[];
 }
 
 export interface RiskDistribution {

@@ -125,7 +125,10 @@ export function ScoreTrendChart({ trend }: ScoreTrendChartProps) {
                   tickLine={false}
                 />
                 <YAxis
-                  domain={[0, 100]}
+                  domain={[
+                    (dataMin: number) => Math.max(0, Math.floor(dataMin - 5)),
+                    (dataMax: number) => Math.min(100, Math.ceil(dataMax + 5)),
+                  ]}
                   tick={{ fontSize: 11, fill: 'var(--color-text-3)' }}
                   axisLine={false}
                   tickLine={false}
