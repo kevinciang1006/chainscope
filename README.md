@@ -1,39 +1,77 @@
 # ChainScope
 
-Supply Chain ESG Intelligence — a portfolio demo built to mirror the data-density and UX challenges of a real B2B sustainability platform.
+Supply-chain ESG analytics UI. Portfolio demo with fictional data.
 
-**Live:** https://chainscope-six.vercel.app
-**Repo:** https://github.com/kevinciang1006/chainscope
+**Live:** https://chainscope.kevinciang.com | **Repo:** https://github.com/kevinciang1006/chainscope
 
-## What this is
+![Portfolio dashboard with KPI cards, risk distribution, ESG trend and top risk suppliers](docs/screenshots/dashboard.png)
+*Dashboard: KPI cards, risk distribution, 12-month ESG trend, top risk suppliers and recent activity.*
 
-A focused, single-domain frontend demo: 80 fictional suppliers, ESG ratings, risk classifications, audit history. Three primary surfaces — portfolio dashboard, suppliers list, supplier detail — plus a design system reference.
+![Suppliers list filtered by region and risk level, with filter chips](docs/screenshots/suppliers-filtered.png)
+*Suppliers list with two filters applied through URL params (`?reg=Southeast Asia&risk=High,Critical`).*
 
-## What I was practicing
+![Supplier detail page](docs/screenshots/supplier-detail.png)
+*Supplier detail: rating, E/S/G breakdown, audits and certifications.*
 
-- UX on data-heavy B2B screens: filters that feel instant, tables that read at a glance, detail pages that tell a story
-- Design system rigor: tokenized colors, type, spacing — no shadcn defaults shipped raw
-- Real loading and empty states (mock API uses async + latency, so TanStack Query loading flows are exercised)
-- URL-synced filters — every filtered view is shareable
-- Accessibility: keyboard nav, focus rings, sort announcements, color-paired-with-text on every status
+## What it does
+
+- Dashboard with KPI cards, risk distribution, a 12-month ESG score trend, top risk suppliers and recent activity.
+- Supplier list of 80 fictional suppliers with search, multi-select filters (industry, region, tier, risk, rating), sorting and pagination.
+- Supplier detail page with ESG rating, score history, audit timeline and certifications.
+- A design system reference page at `/design-system`.
+
+## Frontend details
+
+- Filters are synced to the URL, so any filtered view can be shared as a link.
+- The mock API adds simulated latency, so TanStack Query loading and empty states are exercised for real.
+- Sortable table headers set `aria-sort`. Controls are native buttons or Radix primitives with visible focus rings.
+- Risk and status are always shown with text or an icon, never by colour alone.
+- Numeric columns and KPIs use `tabular-nums`.
+- Design tokens (colours, type) are defined with Tailwind v4 `@theme`.
+- Number formatters and `CountUpNumber` take a `locale` argument. The default is `en-US` (`DEFAULT_LOCALE` in `src/lib/constants.ts`).
+
+## Testing
+
+Vitest runs 12 tests across three files:
+
+- `src/lib/formatters.test.ts`: count, percent, score and delta formatting, including zero, large values and a `de-DE` locale.
+- `src/lib/risk.test.ts`: grade to band mapping at the edge of each band.
+- `src/hooks/useFilters.test.tsx`: parsing filters from the URL, ignoring invalid values, updating filters, and clearing them.
+
+```bash
+npm test
+```
+
+Accessibility is checked with axe-core through Playwright. Results as of 2026-10-05, run at 1440x900 against the production build:
+
+| Page | Violations |
+| --- | --- |
+| Dashboard (`/`) | 1 (color-contrast, serious, 1 node) |
+| Suppliers list (`/suppliers`) | 1 (color-contrast, serious, 7 nodes) |
+| Supplier detail (`/suppliers/sup-001`) | 1 (color-contrast, serious, 2 nodes) |
+
+All remaining violations are text in the risk colours (`risk-low`, `risk-medium`, `risk-high`, `warning`) on their tinted backgrounds, which fall below 4.5:1. They are not fixed yet. Automated checks do not cover everything, and supplier table rows open the detail page on click only.
+
+To run the check:
+
+```bash
+npm run build
+npx vite preview --port 4173   # in a second terminal
+node scripts/a11y-check.mjs
+```
+
+`node scripts/screenshots.mjs` regenerates the images in `docs/screenshots/` the same way. Both scripts need Chromium (`npx playwright install chromium`).
 
 ## Stack
 
-React 19 · Vite · TypeScript (strict) · Tailwind CSS v4 · TanStack Query · TanStack Table · Recharts · Radix UI · React Router 7
+React 19, Vite, TypeScript (strict), Tailwind CSS v4, TanStack Query, TanStack Table, Recharts, Radix UI, React Router 7, Vitest.
 
-## Design notes
+## What this demo does not do
 
-- Color palette: warm off-white base, single restrained emerald accent, muted risk semantics (sage/amber/terracotta/rust). Avoids both generic shadcn slate and ESG-cliché brand greens.
-- Typography: Inter for UI, JetBrains Mono for tabular numbers.
-- All numbers in tables and KPIs use `tabular-nums` so columns align by digit.
-- Risk indicators are always paired with text or icon — never color-alone.
-
-## Trade-offs (deliberate)
-
-- No backend. Mock data is in `src/data/fixtures/` with a seeded PRNG so output is reproducible.
-- No auth, no CRUD forms. Action buttons trigger toasts. The pitch was UX quality on data screens, not feature breadth.
-- No tests shipped. Vitest scaffolded; given a 2-day budget I prioritized polish and accessibility.
+- No backend. Data is seeded fixtures in `src/data/fixtures/`, generated with a seeded PRNG so output is reproducible.
+- No auth and no CRUD. Action buttons show toasts.
 - Light mode only.
+- No localisation. Number formatters accept a locale, but there is no translated UI and dates and relative times are English only.
 
 ## Run locally
 
@@ -58,15 +96,10 @@ src/
   hooks/         # useFilters (URL-synced), useDebounce, useToast, TanStack Query wrappers
   lib/           # formatters, risk helpers, constants, cn util
   styles/        # Tailwind v4 @theme tokens
+  test/          # Vitest setup
   types.ts       # all domain types
+scripts/         # a11y-check.mjs, screenshots.mjs
+docs/screenshots/
 ```
 
-## Deploying
-
-1. Push to GitHub: `github.com/kevinciang1006/chainscope`
-2. Import the repo in Vercel — auto-detects Vite
-3. Build command: `npm run build`. Output: `dist`
-4. No env vars needed
-5. Add a custom domain or use the default `*.vercel.app` URL
-
-— Built by Kevin Ciang. Two days, one focus: how data-heavy B2B should feel.
+Originally built as a portfolio piece for a frontend application at ESGpedia.
