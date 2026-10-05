@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { COUNTUP_DURATION_MS } from '@/lib/constants';
+import { COUNTUP_DURATION_MS, DEFAULT_LOCALE } from '@/lib/constants';
 
 interface CountUpNumberProps {
   value: number;
   duration?: number;
   decimals?: number;
+  locale?: string;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ export function CountUpNumber({
   value,
   duration = COUNTUP_DURATION_MS,
   decimals = 0,
+  locale = DEFAULT_LOCALE,
   className,
 }: CountUpNumberProps) {
   const [displayed, setDisplayed] = useState(0);
@@ -65,7 +67,7 @@ export function CountUpNumber({
     };
   }, [value, duration]);
 
-  const formatted = displayed.toLocaleString('en-US', {
+  const formatted = displayed.toLocaleString(locale, {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals,
   });

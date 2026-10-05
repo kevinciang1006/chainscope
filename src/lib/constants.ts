@@ -17,6 +17,7 @@ export const GRADES: readonly EsgGrade[] = [
 ] as const;
 
 // UI constants
+export const DEFAULT_LOCALE = 'en-US';
 export const PAGE_SIZE = 20;
 export const SKELETON_ROWS = 8;
 export const SEARCH_DEBOUNCE_MS = 250;
