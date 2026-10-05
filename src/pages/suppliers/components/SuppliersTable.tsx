@@ -255,7 +255,7 @@ export function SuppliersTable({
       // 9. Actions
       columnHelper.display({
         id: 'actions',
-        header: '',
+        header: () => <span className="sr-only">Actions</span>,
         cell: ({ row }) => (
           <span onClick={(e) => e.stopPropagation()} className="inline-flex">
             <DropdownMenu>
