@@ -33,10 +33,17 @@
   --color-risk-high-bg:  #F8E5DC;
   --color-risk-critical: #8E3B26;
   --color-risk-critical-bg:#F1D9D2;
+  /* Text on the tinted risk backgrounds (pills, badges, inline status text).
+     Same hue, darkened to >= 4.5:1 against the tint and white. Fills, chart
+     colours and dots keep the base tokens above. */
+  --color-risk-low-fg:    #536E62;
+  --color-risk-medium-fg: #876327;
+  --color-risk-high-fg:   #9B4F36;
 
   /* System */
   --color-success: #2F7A5C;
   --color-warning: #B47A2A;
+  --color-warning-fg: #8D5F21; /* warning text on tints, >= 4.5:1 */
   --color-error:   #B14A38;
   --color-info:    #3A5F7A;
 

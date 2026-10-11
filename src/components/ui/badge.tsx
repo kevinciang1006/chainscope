@@ -11,7 +11,7 @@ export const badgeVariants = cva(
         secondary: 'bg-surface-2 text-text-2 border border-border',
         outline: 'bg-transparent text-text-2 border border-border',
         success: 'bg-brand-50 text-success border border-brand-100',
-        warning: 'bg-risk-medium-bg text-warning border border-risk-medium-bg',
+        warning: 'bg-risk-medium-bg text-warning-fg border border-risk-medium-bg',
         danger: 'bg-risk-high-bg text-error border border-risk-high-bg',
         muted: 'bg-surface-2 text-text-3 border border-border',
       },

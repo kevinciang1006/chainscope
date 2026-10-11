@@ -42,15 +42,15 @@ Vitest runs 12 tests across three files:
 npm test
 ```
 
-Accessibility is checked with axe-core through Playwright. Results as of 2026-10-05, run at 1440x900 against the production build:
+Accessibility is checked with axe-core through Playwright. Results as of 2026-10-11, run at 1440x900 against the production build:
 
 | Page | Violations |
 | --- | --- |
-| Dashboard (`/`) | 1 (color-contrast, serious, 1 node) |
-| Suppliers list (`/suppliers`) | 1 (color-contrast, serious, 7 nodes) |
-| Supplier detail (`/suppliers/sup-001`) | 1 (color-contrast, serious, 2 nodes) |
+| Dashboard (`/`) | 0 |
+| Suppliers list (`/suppliers`) | 0 |
+| Supplier detail (`/suppliers/sup-001`) | 0 |
 
-All remaining violations are text in the risk colours (`risk-low`, `risk-medium`, `risk-high`, `warning`) on their tinted backgrounds, which fall below 4.5:1. They are not fixed yet. Automated checks do not cover everything, and supplier table rows open the detail page on click only.
+Text on the tinted risk backgrounds uses darker `*-fg` tokens (at least 4.5:1); fills, chart colours and dots keep the base risk colours. Each supplier name in the table is a link, so rows can be reached with Tab and opened with Enter. Automated checks do not cover everything.
 
 To run the check:
 

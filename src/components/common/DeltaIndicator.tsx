@@ -18,8 +18,8 @@ const SIZE_CLASSES = {
 
 function getColorClass(value: number, inverted: boolean): string {
   if (value === 0) return 'text-text-3';
-  if (value > 0) return inverted ? 'text-risk-high' : 'text-success';
-  return inverted ? 'text-success' : 'text-risk-high';
+  if (value > 0) return inverted ? 'text-risk-high-fg' : 'text-success';
+  return inverted ? 'text-success' : 'text-risk-high-fg';
 }
 
 export function DeltaIndicator({
