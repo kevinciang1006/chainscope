@@ -52,7 +52,7 @@ export function AuditTimeline({ audits }: AuditTimelineProps) {
                     className={cn(
                       'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium tabular-nums font-mono shrink-0',
                       scoreChange > 0 && 'bg-brand-50 text-brand-800',
-                      scoreChange < 0 && 'bg-risk-high-bg text-risk-high',
+                      scoreChange < 0 && 'bg-risk-high-bg text-risk-high-fg',
                       scoreChange === 0 && 'bg-surface-2 text-text-3',
                     )}
                     aria-label={`Score change: ${scoreChange > 0 ? '+' : ''}${scoreChange}`}

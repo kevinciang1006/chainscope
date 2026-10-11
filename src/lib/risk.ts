@@ -1,9 +1,9 @@
 import type { EsgGrade, RiskLevel } from '@/types';
 
 export const RISK_CLASSES: Record<RiskLevel, { text: string; bg: string; dot: string }> = {
-  Low:      { text: 'text-risk-low',      bg: 'bg-risk-low-bg',      dot: 'bg-risk-low' },
-  Medium:   { text: 'text-risk-medium',   bg: 'bg-risk-medium-bg',   dot: 'bg-risk-medium' },
-  High:     { text: 'text-risk-high',     bg: 'bg-risk-high-bg',     dot: 'bg-risk-high' },
+  Low:      { text: 'text-risk-low-fg',      bg: 'bg-risk-low-bg',      dot: 'bg-risk-low' },
+  Medium:   { text: 'text-risk-medium-fg',   bg: 'bg-risk-medium-bg',   dot: 'bg-risk-medium' },
+  High:     { text: 'text-risk-high-fg',     bg: 'bg-risk-high-bg',     dot: 'bg-risk-high' },
   Critical: { text: 'text-risk-critical', bg: 'bg-risk-critical-bg', dot: 'bg-risk-critical' },
 };
 

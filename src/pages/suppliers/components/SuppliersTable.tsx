@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   createColumnHelper,
   flexRender,
@@ -172,7 +172,15 @@ export function SuppliersTable({
         header: 'Supplier',
         cell: ({ row }) => (
           <div className="min-w-[140px]">
-            <div className="font-medium text-text-1 leading-tight">{row.original.name}</div>
+            {/* A real link so the row is reachable by Tab and opens with Enter;
+                clicking anywhere on the row still works for mouse users. */}
+            <Link
+              to={`/suppliers/${row.original.id}`}
+              onClick={(e) => e.stopPropagation()}
+              className="font-medium text-text-1 leading-tight hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 rounded-sm"
+            >
+              {row.original.name}
+            </Link>
             <div className="font-mono text-xs text-text-3 mt-0.5">
               {row.original.country} · {row.original.countryCode}
             </div>
@@ -308,7 +316,7 @@ export function SuppliersTable({
                       variant: 'default',
                     })
                   }
-                  className="text-risk-high"
+                  className="text-risk-high-fg"
                 >
                   Flag for Review
                 </DropdownMenuItem>
